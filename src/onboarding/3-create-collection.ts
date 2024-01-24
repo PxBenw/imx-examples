@@ -37,7 +37,7 @@ const component = '[IMX-CREATE-COLLECTION]';
     /**
      * Edit your values here
      */
-    name: 'ENTER_COLLECTION_NAME',
+    name: 'ChronoForge Gear',
     // description: 'ENTER_COLLECTION_DESCRIPTION (OPTIONAL)',
     contract_address: collectionContractAddress,
     owner_public_key: ownerPublicKey,

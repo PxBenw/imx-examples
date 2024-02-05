@@ -37,13 +37,16 @@ const component = '[IMX-CREATE-COLLECTION]';
     /**
      * Edit your values here
      */
-    name: 'ChronoForge Gear',
-    // description: 'ENTER_COLLECTION_DESCRIPTION (OPTIONAL)',
+    name: 'ChronoForge Weapons',
+    description:
+      'ChronoForge weapons are in-game weapons wielded by adventurers, providing stats boosts and other passive buffs. Reclaim a time-fractured world at chronoforge.gg',
     contract_address: collectionContractAddress,
     owner_public_key: ownerPublicKey,
-    // icon_url: '',
-    // metadata_api_url: '',
-    // collection_image_url: '',
+    icon_url:
+      'https://d3uzvcdvguxi7x.cloudfront.net/images/chronoforge/android-chrome-192x192.png',
+    metadata_api_url: 'https://api.pixelminions.io/meta/weapons_imx/',
+    collection_image_url:
+      'https://d3uzvcdvguxi7x.cloudfront.net/media/armour_imx_square.png',
     project_id: parseInt(projectId, 10),
   };
 
@@ -65,6 +68,15 @@ const component = '[IMX-CREATE-COLLECTION]';
   log.info(component, 'Created collection');
   console.log(JSON.stringify(resp.data, null, 2));
 })().catch(e => {
-  log.error(component, e);
+  log.error(component, e.message);
+  if (e instanceof Error) {
+  }
+  if (axios.isAxiosError(e)) {
+    // Log detailed Axios error information
+    if (e.response) {
+      log.error(component, e.response.data);
+    } else if (e.request) {
+    }
+  }
   process.exit(1);
 });

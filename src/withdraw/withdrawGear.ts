@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import { AlchemyProvider, JsonRpcProvider } from '@ethersproject/providers';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
-import { generateStarkPrivateKey, createStarkSigner } from '@imtbl/core-sdk';
+import { createStarkSigner } from '@imtbl/core-sdk';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -21,9 +21,14 @@ if (!process.env.PRIVATE_KEY) {
 
 const ethSigner = new Wallet(process.env.PRIVATE_KEY).connect(provider);
 
-// Create Stark signer
-const starkPrivateKey = generateStarkPrivateKey(); // Or retrieve previously generated key
-const starkSigner = createStarkSigner(starkPrivateKey);
+if (!process.env.STARK_PRIVATE_KEY) {
+  throw new Error(
+    'STARK_PRIVATE_KEY is not defined in the environment variables',
+  );
+}
+// // Create Stark signer
+// const starkPrivateKey = generateStarkPrivateKey(); // Or retrieve previously generated key
+const starkSigner = createStarkSigner(process.env.STARK_PRIVATE_KEY);
 
 interface ResponseData {
   stark_key: string;
@@ -46,7 +51,7 @@ const withdrawalDetails = {
       token_id: '5',
     },
   },
-  user: '0x5d1266e2B7eAc3fe473a50a53Cf7CacF341fb505', // Public L1 Ethereum address of withdraw
+  user: '0x82b56283611C72f325D4F3c20404C21E26249121', // Public L1 Ethereum address of withdraw
 };
 
 async function fetchData(): Promise<ResponseData | null> {
@@ -113,7 +118,7 @@ async function signWithdrawal(ResponseData: ResponseData) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-imx-eth-address': '0x5d1266e2B7eAc3fe473a50a53Cf7CacF341fb505', // Public Ethereum address of the withdrawing user
+        'x-imx-eth-address': '0x82b56283611C72f325D4F3c20404C21E26249121', // Public Ethereum address of the withdrawing user
         'x-imx-eth-signature': ethSignature,
       },
       body: JSON.stringify(withdrawalBody),
